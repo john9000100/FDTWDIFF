@@ -13,6 +13,8 @@ public class DistanceFunctionFactory
    public static DistanceFunction EUCLIDEAN_DIST_FN = new EuclideanDistance();
    public static DistanceFunction MANHATTAN_DIST_FN = new ManhattanDistance();
    public static DistanceFunction BINARY_DIST_FN = new BinaryDistance();
+   public static DistanceFunction DOT_PRODUCT_DIST_FN = new DotProductDistance();
+   public static DistanceFunction U_DOT_PRODUCT_DIST_FN = new UDotProductDistance();
    
    public static DistanceFunction getDistFnByName(String distFnName)
    {
@@ -27,6 +29,14 @@ public class DistanceFunctionFactory
       else if (distFnName.equals("BinaryDistance"))
       {
          return BINARY_DIST_FN;
+      }
+	else if (distFnName.equals("DotProductDistance"))
+      {
+         return DOT_PRODUCT_DIST_FN;
+      }
+	else if (distFnName.equals("UDotProductDistance"))
+      {
+         return U_DOT_PRODUCT_DIST_FN;
       }
       else
       {

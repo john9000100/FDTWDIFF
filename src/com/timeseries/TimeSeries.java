@@ -45,6 +45,18 @@ public class TimeSeries
       tsArray = new ArrayList();
    }
 
+   public TimeSeries(ArrayList<TimeSeriesPoint> tsArray) {
+	labels = new ArrayList();                                                   
+        timeReadings = new ArrayList();
+
+	labels.add("Time");
+	for (int i = 1; i <= tsArray.get(0).size(); i++) {
+		labels.add("c" + i);
+        }
+	for (int i = 0; i < tsArray.size(); i++)
+		timeReadings.add(new Double(i));
+	this.tsArray = tsArray;
+   }
 
    public TimeSeries(int numOfDimensions)                                               
    {

@@ -53,10 +53,14 @@ class MemoryResidentMatrix implements CostMatrix
 
    public double get(int col, int row)
    {
-      if ((row<window.minJforI(col)) || (row>window.maxJforI(col)))
+      if ((row<window.minJforI(col)) || (row>window.maxJforI(col))) {
+//System.out.println("RETURNING OUT_OF_WINDOW_VALUE");
          return OUT_OF_WINDOW_VALUE;
-      else
+	}
+      else 
+//System.out.println("NOT RETURNING OUT_OF_WINDOW_VALUE");
          return cellValues[colOffsets[col]+row-window.minJforI(col)];
+	
    }
 
 

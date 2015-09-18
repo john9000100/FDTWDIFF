@@ -34,6 +34,16 @@ public class WarpPath
       tsJindexes = new ArrayList();
    }
 
+   public double[][] toMATLAB()
+   {	
+	double[][] warpPath = new double[tsIindexes.size()][2];
+	for (int i = 0; i < tsIindexes.size(); i++) {
+		warpPath[i][0] = ((Integer) tsIindexes.get(i)).intValue() + 1.0;
+		warpPath[i][1] = ((Integer) tsJindexes.get(i)).intValue() + 1.0;
+	}
+
+	return warpPath;
+   }
 
    public WarpPath(int initialCapacity)
    {
@@ -42,7 +52,6 @@ public class WarpPath
       tsJindexes.ensureCapacity(initialCapacity);
 
    }
-
 
    public WarpPath(String inputFile)
    {
@@ -121,6 +130,12 @@ public class WarpPath
    {
       tsIindexes.add(new Integer(i));
       tsJindexes.add(new Integer(j));
+   }
+
+   public void remove(int w)
+   {
+      tsIindexes.remove(w);
+      tsJindexes.remove(w);
    }
 
 

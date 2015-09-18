@@ -7,6 +7,8 @@
 
 package com.util;
 
+import java.util.Arrays;
+
 
 public class EuclideanDistance implements DistanceFunction
 {
@@ -17,15 +19,20 @@ public class EuclideanDistance implements DistanceFunction
    
    public double calcDistance(double[] vector1, double[] vector2)
    {
+
       if (vector1.length != vector2.length)
          throw new InternalError("ERROR:  cannot calculate the distance "
                                  + "between vectors of different sizes.");
 
       double sqSum = 0.0;
-      for (int x=0; x<vector1.length; x++)
-          sqSum += Math.pow(vector1[x]-vector2[x], 2.0);
+      for (int x=0; x<vector1.length; x++) {
+	  double diff = (vector1[x] - vector2[x]);
+	  sqSum += diff*diff;
+          //sqSum += Math.pow(vector1[x]-vector2[x], 2.0);
+      }
+      double result = Math.sqrt(sqSum);
 
-      return Math.sqrt(sqSum);
+      return result;
    }  // end class euclideanDist(..)
 
 }

@@ -21,6 +21,9 @@ import java.util.ArrayList;
  */
 public class Arrays
 {
+   public Arrays() {
+
+   }
    public static int[] toPrimitiveArray(Integer[] objArr)
    {
       final int[] primArr = new int[objArr.length];

@@ -21,9 +21,12 @@ public class ExpandedResWindow extends SearchWindow
       // Initialize the private data in the super class.
       super(tsI.size(), tsJ.size());
 
+      // double resolutionFactor = shrunkJ.originalSize() / shrunkJ.size();
       // Variables to keep track of the current location of the higher resolution projected path.
-      int currentI = shrunkWarpPath.minI();
-      int currentJ = shrunkWarpPath.minJ();
+      int currentI = shrunkWarpPath.minI(); // With Inflexible or Flexible DTW, this is 0.
+      int currentJ = 0; 
+      for (int j = 0; j < shrunkWarpPath.minJ(); j++)
+          currentJ += shrunkJ.aggregatePtSize(j);
 
       // Variables to keep track of the last part of the low-resolution warp path that was evaluated
       //    (to determine direction).
@@ -39,13 +42,14 @@ public class ExpandedResWindow extends SearchWindow
          final int warpedJ = currentCell.getRow();
 
          final int blockISize = shrunkI.aggregatePtSize(warpedI);
+
          final int blockJSize = shrunkJ.aggregatePtSize(warpedJ);
 
          // If the path moved up or diagonally, then the next cell's values on the J axis will be larger.
          if (warpedJ > lastWarpedJ)
             currentJ += shrunkJ.aggregatePtSize(lastWarpedJ);
 
-         // If the path moved up or diagonally, then the next cell's values on the J axis will be larger.
+         // If the path moved up or right, then the next cell's values on the I axis will be larger.
          if (warpedI > lastWarpedI)
             currentI += shrunkI.aggregatePtSize(lastWarpedI);
 

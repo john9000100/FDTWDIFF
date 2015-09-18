@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.NoSuchElementException;
+import java.lang.Integer;
 
 
 
@@ -50,25 +51,25 @@ abstract public class SearchWindow
 
    public final int minI()
    {
-      return 0;
+	return 0;
    }
 
 
    public final int maxI()
    {
-      return minValues.length-1;
+	return minValues.length - 1;
    }
 
 
-   public final int minJ()
+   public final int minJ() // This should always equal minValues[0], since path only goes in direction of decreasing i and j.
    {
-      return 0;
+	return minValues[0];
    }
 
 
-   public final int maxJ()
+   public final int maxJ() // This should always equal maxValues[maxI()], since path only goes in direction of decreasing i and j.
    {
-      return maxJ;
+        return maxValues[maxI()];
    }
 
 
@@ -77,12 +78,10 @@ abstract public class SearchWindow
       return minValues[i];
    }
 
-
    public final int maxJforI(int i)
    {
       return maxValues[i];
    }
-
 
    public final int size()
    {
@@ -119,7 +118,13 @@ abstract public class SearchWindow
       return modCount;
    }
 
+   private final int minJExp() {
+	return 0;
+   }
 
+   private final int maxJExp() {
+	return maxJ;
+   }
 
    // PROTECTED FUNCTIONS
    //    Expands the current window by a s pecified radius.
@@ -149,51 +154,51 @@ abstract public class SearchWindow
          for (int cell=0; cell<windowCells.size(); cell++)
          {
             final ColMajorCell currentCell = (ColMajorCell)windowCells.get(cell);
-
-            if ( (currentCell.getCol() != minI()) && (currentCell.getRow() != maxJ()) )// move to upper left if possible
+/*
+            if ( (currentCell.getCol() != minI()) && (currentCell.getRow() != maxJExp()) )// move to upper left if possible
             {
                // Either extend full search radius or some fraction until edges of matrix are met.
                final int targetCol = currentCell.getCol()-radius;
                final int targetRow = currentCell.getRow()+radius;
 
-               if ( (targetCol>=minI()) && (targetRow<=maxJ()))
+               if ( (targetCol>=minI()) && (targetRow<=maxJExp()))
                   markVisited(targetCol, targetRow);
                else
                {
                   // Expand the window only to the edge of the matrix.
-                  final int cellsPastEdge = Math.max(minI()-targetCol, targetRow-maxJ());
+                  final int cellsPastEdge = Math.max(minI()-targetCol, targetRow-maxJExp());
                   markVisited(targetCol+cellsPastEdge, targetRow-cellsPastEdge);
                }  // end if
             }  // end if
-
-            if (currentCell.getRow() != maxJ())  // move up if possible
+*/
+            if (currentCell.getRow() != maxJExp())  // move up if possible
             {
                // Either extend full search radius or some fraction until edges of matrix are met.
                final int targetCol = currentCell.getCol();
                final int targetRow = currentCell.getRow()+radius;
 
-               if (targetRow <= maxJ())
+               if (targetRow <= maxJExp())
                   markVisited(targetCol, targetRow);  // radius does not go past the edges of the matrix
                else
                {
                   // Expand the window only to the edge of the matrix.
-                  final int cellsPastEdge = targetRow-maxJ();
+                  final int cellsPastEdge = targetRow-maxJExp();
                   markVisited(targetCol, targetRow-cellsPastEdge);
                }  // end if
             }  // end if
-
-            if ((currentCell.getCol() != maxI()) && (currentCell.getRow() != maxJ())) // move to upper-right if possible
+/*
+            if ((currentCell.getCol() != maxI()) && (currentCell.getRow() != maxJExp())) // move to upper-right if possible
             {
                // Either extend full search radius or some fraction until edges of matrix are met.
                final int targetCol = currentCell.getCol()+radius;
                final int targetRow = currentCell.getRow()+radius;
 
-               if ( (targetCol<=maxI()) && (targetRow<=maxJ()))
+               if ( (targetCol<=maxI()) && (targetRow<=maxJExp()))
                   markVisited(targetCol, targetRow);  // radius does not go past the edges of the matrix
                else
                {
                   // Expand the window only to the edge of the matrix.
-                  final int cellsPastEdge = Math.max(targetCol-maxI(), targetRow-maxJ());
+                  final int cellsPastEdge = Math.max(targetCol-maxI(), targetRow-maxJExp());
                   markVisited(targetCol-cellsPastEdge, targetRow-cellsPastEdge);
                }  // end if
             }  // end if
@@ -230,53 +235,54 @@ abstract public class SearchWindow
                }  // end if
             }  // end if
 
-            if ( (currentCell.getCol() != minI()) && (currentCell.getRow() != minJ()) )  // move to lower-left if possible
+            if ( (currentCell.getCol() != minI()) && (currentCell.getRow() != minJExp()) )  // move to lower-left if possible
             {
                // Either extend full search radius or some fraction until edges of matrix are met.
                final int targetCol = currentCell.getCol()-radius;
                final int targetRow = currentCell.getRow()-radius;
 
-               if ( (targetCol>=minI()) && (targetRow>=minJ()))
+               if ( (targetCol>=minI()) && (targetRow>=minJExp()))
                   markVisited(targetCol, targetRow);  // radius does not go past the edges of the matrix
                else
                {
                   // Expand the window only to the edge of the matrix.
-                  final int cellsPastEdge = Math.max(minI()-targetCol, minJ()-targetRow);
+                  final int cellsPastEdge = Math.max(minI()-targetCol, minJExp()-targetRow);
                   markVisited(targetCol+cellsPastEdge, targetRow+cellsPastEdge);
                }  // end if
             }  // end if
-
-            if (currentCell.getRow() != minJ())  // move down if possible
+*/
+            if (currentCell.getRow() != minJExp())  // move down if possible
             {
                // Either extend full search radius or some fraction until edges of matrix are met.
                final int targetCol = currentCell.getCol();
                final int targetRow = currentCell.getRow()-radius;
 
-               if (targetRow >= minJ())
+               if (targetRow >= minJExp())
                   markVisited(targetCol, targetRow);  // radius does not go past the edges of the matrix
                else
                {
                   // Expand the window only to the edge of the matrix.
-                  final int cellsPastEdge = minJ()-targetRow;
+                  final int cellsPastEdge = minJExp()-targetRow;
                   markVisited(targetCol, targetRow+cellsPastEdge);
                }  // end if
             }  // end if
-
-            if ((currentCell.getCol() != maxI()) && (currentCell.getRow() != minJ()))  // move to lower-right if possible
+/*
+            if ((currentCell.getCol() != maxI()) && (currentCell.getRow() != minJExp()))  // move to lower-right if possible
             {
                // Either extend full search radius or some fraction until edges of matrix are met.
                final int targetCol = currentCell.getCol()+radius;
                final int targetRow = currentCell.getRow()-radius;
 
-               if ( (targetCol<=maxI()) && (targetRow>=minJ()))
+               if ( (targetCol<=maxI()) && (targetRow>=minJExp()))
                   markVisited(targetCol, targetRow);  // radius does not go past the edges of the matrix
                else
                {
                   // Expand the window only to the edge of the matrix.
-                  final int cellsPastEdge = Math.max(targetCol-maxI(), minJ()-targetRow);
+                  final int cellsPastEdge = Math.max(targetCol-maxI(), minJExp()-targetRow);
                   markVisited(targetCol-cellsPastEdge, targetRow+cellsPastEdge);
                }  // end if
             }  // end if
+*/
          }  // end for loop
       }  // end if
    }  // end expandWindow(.)
