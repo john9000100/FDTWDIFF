@@ -385,10 +385,11 @@ public class DTW
 //e = System.currentTimeMillis();
 //System.out.println("Backtracking: " + (e-s));
 //s = System.currentTimeMillis();
-      TimeWarpInfo trimmed = trimCorners(new TimeWarpInfo(minimumCost, minCostPath), distFn, motionDist, motionWeight, vcost, hcost, tsIDiffs, tsJDiffs, tsI, tsJ, zero, 0);
+  //    TimeWarpInfo trimmed = trimCorners(new TimeWarpInfo(minimumCost, minCostPath), distFn, motionDist, motionWeight, vcost, hcost, tsIDiffs, tsJDiffs, tsI, tsJ, zero, 0);
 //System.out.println("Backtracking: " + (e-s));
-      return trimmed;
-   }  // end DynamicTimeWarp(..)
+  //    return trimmed;
+        return new TimeWarpInfo(minimumCost, minCostPath);   
+}  // end DynamicTimeWarp(..)
 
 
    // These functions are the window-constrained versions of the ones above. The algorithm will search for the best warp path within a window given by the window parameter.
@@ -470,9 +471,9 @@ public class DTW
           tsIDiffs[tsind] = arrayMinus(tsI.getMeasurementVector(tsind+1), tsI.getMeasurementVector(tsind));
       for (int tsjind = minJ; tsjind <= maxJ; tsjind++) {
           if (tsjind != 0)
-          	tsJDiffs[tsjind] = arrayMinus(tsJ.getMeasurementVector(tsjind), tsJ.getMeasurementVector(tsjind-1));
+          	tsJDiffs[tsjind - minJ] = arrayMinus(tsJ.getMeasurementVector(tsjind), tsJ.getMeasurementVector(tsjind-1));
 	  else
-		tsJDiffs[tsjind] = tsJ.getMeasurementVector(tsjind); // If j == 0, consider the frame before J's 0th frame to be the zero vector.
+		tsJDiffs[tsjind - minJ] = tsJ.getMeasurementVector(tsjind); // If j == 0, consider the frame before J's 0th frame to be the zero vector.
       }
 //e = System.currentTimeMillis();
 //System.out.println("Velocities: " + (e-s));
@@ -777,11 +778,12 @@ public class DTW
 //System.out.println("Freeing memory: " + (e-s));
 
 //s = System.currentTimeMillis();
-      TimeWarpInfo trimmed = trimCorners(new TimeWarpInfo(minimumCost, minCostPath), distFn, motionDist, motionWeight, vcost, hcost, tsIDiffs, tsJDiffs, tsI, tsJ, zero, minJ);
+    //  TimeWarpInfo trimmed = trimCorners(new TimeWarpInfo(minimumCost, minCostPath), distFn, motionDist, motionWeight, vcost, hcost, tsIDiffs, tsJDiffs, tsI, tsJ, zero, minJ);
 //e = System.currentTimeMillis();
 //System.out.println("Trimming: " + (e-s));
-      return trimmed;
+ //     return trimmed;
 
+	return new TimeWarpInfo(minimumCost, minCostPath);
    }  // end ConstrainedTimeWarp
 
 
