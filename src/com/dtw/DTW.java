@@ -904,7 +904,7 @@ public class DTW
 		}
 
 		// Subtract the score for the additional frame.
-		score -= dFn.calcDistance(tsI.getMeasurementVector(lasti), tsJ.getMeasurementVector(lastj));
+		score -= motionWeight*dFn.calcDistance(tsI.getMeasurementVector(lasti), tsJ.getMeasurementVector(lastj));
 
 		// Remove the corner from the warp path
 		path.remove(w-1);
